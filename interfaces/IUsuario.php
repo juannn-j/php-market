@@ -6,7 +6,7 @@ interface IUsuario {
     public function cargar(): array;
     public function actualizar(Usuario $usuario): bool;
     public function eliminar(int $id): bool;
-   
+
     public function validar(Usuario $usuario): bool;
     public function obtenerPorId(int $id): ?Usuario;
 }
