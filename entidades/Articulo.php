@@ -13,7 +13,7 @@ class Articulo {
         $this->descripcion = $descripcion;
         $this->marca = $marca;
         $this->precio = $precio;
-        $this->cantidad = $cantidad;
+        $this->stock= $stock;
         $this->imagen = $imagen;
     }
 
@@ -58,11 +58,11 @@ class Articulo {
     }
 
     public function getCantidad() {
-        return $this->cantidad;
+        return $this->stock;
     }
 
-    public function setCantidad($cantidad) {
-        $this->cantidad = $cantidad;
+    public function setCantidad($stock) {
+        $this->stock = $stock;
     }
 }
 ?>
