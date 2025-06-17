@@ -12,7 +12,7 @@ class LUser implements IUsuario {
         $db = new DB();
         $cn = $db->conectar();
 
-        $sql = "SELECT password FROM usuario WHERE email = :email";
+        $sql = "SELECT password FROM usuarios WHERE email = :email";
         $ps = $cn->prepare($sql);
         $ps->bindParam(':email', $email);
         $ps->execute();
