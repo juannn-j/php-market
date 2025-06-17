@@ -12,9 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $modelo = new LUser();
 
     if ($modelo->validar($usuario)) {
-        // Aquí podrías redirigir o iniciar sesión
         $mensaje = "✅ ¡Bienvenido!";
-        // header("Location: dashboard.php"); exit;
     } else {
         $mensaje = "❌ Credenciales inválidas.";
     }
@@ -25,18 +23,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Iniciar sesión</title>
-    <link rel="stylesheet" href="../css/FLogin.css">
+    <link rel="stylesheet" href="../css/estilo.css">
 </head>
 <body>
-    <h2>Iniciar sesión</h2>
-    <?php if (!empty($mensaje)): ?>
-        <p><?= htmlspecialchars($mensaje) ?></p>
-    <?php endif; ?>
-
-    <form method="POST">
-        <input type="email" name="email" placeholder="Correo" required>
-        <input type="password" name="password" placeholder="Contraseña" required>
-        <button type="submit">Ingresar</button>
-    </form>
+    <div class="login-container">
+        <h2>Iniciar sesión</h2>
+        <?php if (!empty($mensaje)): ?>
+            <p><?= htmlspecialchars($mensaje) ?></p>
+        <?php endif; ?>
+        <form method="POST">
+            <input type="email" name="email" placeholder="Correo" required>
+            <input type="password" name="password" placeholder="Contraseña" required>
+            <button type="submit">Ingresar</button>
+        </form>
+    </div>
 </body>
 </html>
