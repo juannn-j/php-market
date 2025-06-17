@@ -23,6 +23,7 @@
             <div class="text-end">
                 <a href="./presentacion/FLogin.php" class="btn btn-outline-light me-2">Login</a>
                 <a href="./presentacion/FSign.php" class="btn btn-warning me-2">Sign-up</a>
+                <a href="./logout.php" class="btn btn-danger">Logout</a>
             </div>
 
         </div>

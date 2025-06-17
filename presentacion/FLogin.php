@@ -30,6 +30,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $mensaje = "❌ Credenciales inválidas.";
     }
 }
+session_unset();
+session_destroy();
 ?>
 
 <!DOCTYPE html>
