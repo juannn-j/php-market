@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($modelo->validar($usuario)) {
         // Redirige si las credenciales son válidas
-        header("Location: bienvenida.php");
+        header("Location: FUsuario.php");
         exit; // Importante: detener ejecución
     } else {
         $mensaje = "❌ Credenciales inválidas.";

@@ -4,6 +4,7 @@ class Usuario {
     private $nombre;
     private $email;
     private $password;
+    private $tipo;
 
     public function __construct($email = '', $password = '') {
         $this->email = $email;
@@ -40,6 +41,14 @@ class Usuario {
 
     public function setPass($password) {
         $this->password = $password;
+    }
+
+    public function getTipo() {
+        return $this->tipo;
+    }
+
+    public function setTipo($tipo) {
+        $this->tipo = $tipo;
     }
 }
 ?>
