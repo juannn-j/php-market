@@ -19,7 +19,7 @@
 
     <div>
         <?php
-        include './../navbar.php';
+        include './navbar.php';
         ?>
     </div>
 
