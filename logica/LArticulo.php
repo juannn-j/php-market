@@ -36,12 +36,15 @@ class LArticulo implements IArticulo {
         $db = new DB();
         $cn = $db->conectar();
 
-        $sql = "UPDATE articulo SET nombre = :nombre, precio = :precio, stock = :stock WHERE id = :id";
+        $sql = "UPDATE articulos SET nombre = :nombre, marca = :marca, descripcion = :descripcion, precio = :precio, stock = :stock, imagen_url = :imagen_url WHERE id = :id";
         $ps = $cn->prepare($sql);
-        $ps->bindParam(':id', $articulo->getId());
+        $ps->bindParam(':id', $articulo->getIdarticulo());
         $ps->bindParam(':nombre', $articulo->getNombre());
+        $ps->bindParam(':marca', $articulo->getMarca());
+        $ps->bindParam(':descripcion', $articulo->getDescripcion());
         $ps->bindParam(':precio', $articulo->getPrecio());
         $ps->bindParam(':stock', $articulo->getStock());
+        $ps->bindParam(':imagen_url', $articulo->getImagen());
 
         return $ps->execute();
     }
@@ -50,7 +53,7 @@ class LArticulo implements IArticulo {
         $db = new DB();
         $cn = $db->conectar();
 
-        $sql = "DELETE FROM articulo WHERE id = :id";
+        $sql = "DELETE FROM articulos WHERE id = :id";
         $ps = $cn->prepare($sql);
         return $ps->execute([':id' => $id]);
     }
@@ -59,7 +62,7 @@ class LArticulo implements IArticulo {
         $db = new DB();
         $cn = $db->conectar();
 
-        $sql = "SELECT * FROM articulo WHERE id = :id";
+        $sql = "SELECT * FROM articulos WHERE id = :id";
         $ps = $cn->prepare($sql);
         $ps->bindParam(':id', $id);
         
