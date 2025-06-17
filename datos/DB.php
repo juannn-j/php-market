@@ -1,7 +1,7 @@
 <?php
     class DB{
         public static function conectar(){
-            $url = "pgsql:host=localhost;dbname=laptopdb";
+            $url = "pgsql:host=localhost;dbname=phpmarket";
             $user = "postgres"; 
             $password = "";
 
