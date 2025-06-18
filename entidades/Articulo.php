@@ -57,11 +57,11 @@ class Articulo {
         $this->precio = $precio;
     }
 
-    public function getCantidad() {
+    public function getStock() {
         return $this->stock;
     }
 
-    public function setCantidad($stock) {
+    public function setStock($stock) {
         $this->stock = $stock;
     }
 }
