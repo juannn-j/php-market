@@ -10,6 +10,7 @@
 <div>
     <?php
         include './navbar.php';
+        include './articulos.php';
     ?>
 </div>   
 </body>

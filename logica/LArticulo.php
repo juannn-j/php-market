@@ -1,7 +1,7 @@
 <?php
-require_once '../datos/DB.php';
-require_once '../entidades/Articulo.php';
-require_once '../interfaces/IArticulo.php';
+require_once './datos/DB.php';
+require_once './entidades/Articulo.php';
+require_once './interfaces/IArticulo.php';
 
 class LArticulo implements IArticulo {
     
@@ -29,7 +29,23 @@ class LArticulo implements IArticulo {
         $ps = $cn->prepare($sql);
         $ps->execute();
 
-        return $ps->fetchAll(PDO::FETCH_CLASS, 'Articulo');
+        $resultados = $ps->fetchAll(PDO::FETCH_ASSOC);
+        $articulos = [];
+
+        foreach ($resultados as $fila) {
+            $articulo = new Articulo(
+                $fila['nombre'],
+                $fila['marca'],
+                $fila['descripcion'],
+                (float)$fila['precio'],
+                (int)$fila['stock'],
+                $fila['imagen_url']
+            );
+            $articulo->setIdarticulo((int)$fila['id']);
+            $articulos[] = $articulo;
+        }
+
+        return $articulos;
     }
 
     public function actualizar(Articulo $articulo): bool {

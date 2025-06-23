@@ -64,5 +64,13 @@ class Articulo {
     public function setStock($stock) {
         $this->stock = $stock;
     }
+
+    public function getImagen() {
+        return $this->imagen;
+    }
+
+    public function setImagen($imagen) {
+        $this->imagen = $imagen;
+    }
 }
 ?>
