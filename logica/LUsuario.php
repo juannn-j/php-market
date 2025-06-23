@@ -18,7 +18,7 @@ class LUser implements IUsuario {
         $ps->execute();
     
         if ($row = $ps->fetch(PDO::FETCH_ASSOC)) {
-            if (password_verify($password, $row['password'])) {
+            if ($password === $row['password']) {  // Comparación directa
                 return $row['tipo']; // Devuelve 'A' o 'C'
             }
         }

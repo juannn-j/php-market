@@ -1,9 +1,9 @@
 <?php
     class DB{
         public static function conectar(){
-            $url = "pgsql:host=localhost;port=5432;dbname=laptopdb";
+            $url = "pgsql:host=localhost;port=2004;dbname=phpmarket";
             $user = "postgres";
-            $password = "";
+            $password = "vsYHONULISESing2040$";
 
             try {
                 $cn = new PDO($url, $user, $password);
