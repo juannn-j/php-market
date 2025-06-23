@@ -1,17 +1,11 @@
 <?php
 session_start();
+
 require_once '../logica/LUsuario.php';
 require_once '../entidades/User.php';
 
 $mensaje = '';
 
-// Si el usuario ya inició sesión, redirigir
-if (isset($_SESSION['login_user']) && !empty($_SESSION['login_user'])) {
-    header("Location: FUsuario.php");
-    exit;
-}
-
-// Procesar el formulario
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
@@ -19,19 +13,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $usuario = new Usuario($email, $password);
     $modelo = new LUser();
 
-    if ($modelo->validar($usuario)) {
-        // Guardar datos en sesión
-        $_SESSION['login_user'] = $email;
-        $_SESSION['rol'] = 'usuario'; // cambia esto si obtienes el rol del usuario
+    $tipo = $modelo->validar($usuario);
 
-        header("Location: FUsuario.php");
+    if ($tipo) {
+        $_SESSION['login_user'] = $email;
+        $_SESSION['rol'] = $tipo;
+
+        if ($tipo === 'A') {
+            header("Location: FAdmin.php");
+        } elseif ($tipo === 'C') {
+            header("Location: FUsuario.php");
+        } else {
+            header("Location: FError.php"); // Por si defines otros roles
+        }
         exit;
     } else {
         $mensaje = "❌ Credenciales inválidas.";
     }
 }
-session_unset();
-session_destroy();
 ?>
 
 <!DOCTYPE html>

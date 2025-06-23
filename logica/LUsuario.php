@@ -5,22 +5,23 @@ require_once '../interfaces/IUsuario.php';
 
 class LUser implements IUsuario {
     
-    public function validar(Usuario $usuario): bool {
+    public function validar(Usuario $usuario): string|false {
         $email = $usuario->getCorreo();
         $password = $usuario->getPass();
-
+    
         $db = new DB();
         $cn = $db->conectar();
-
-        $sql = "SELECT password FROM usuarios WHERE email = :email";
+    
+        $sql = "SELECT password, tipo FROM usuarios WHERE email = :email";
         $ps = $cn->prepare($sql);
         $ps->bindParam(':email', $email);
         $ps->execute();
-
+    
         if ($row = $ps->fetch(PDO::FETCH_ASSOC)) {
-            return $password === $row['password']; // o usar password_verify si están hasheadas
+            if (password_verify($password, $row['password'])) {
+                return $row['tipo']; // Devuelve 'A' o 'C'
+            }
         }
-
         return false;
     }
 
