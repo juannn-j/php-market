@@ -72,7 +72,7 @@ $articulos = $articuloLogic->cargar();
 <h1>Catálogo de Artículos</h1>
 <div class="catalogo">
     <?php foreach ($articulos as $articulo): 
-        $imagen = property_exists($articulo, 'imagen_url') ? $articulo->imagen_url : '';
+        $imagen = $articulo->getImagen();
     ?>
         <div class="producto">
             <?php if (!empty($imagen)): ?>
