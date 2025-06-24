@@ -6,7 +6,9 @@ class Usuario {
     private $password;
     private $tipo;
 
-    public function __construct($email = '', $password = '') {
+
+    public function __construct($nombre = '', $email = '', $password = '') {
+        $this->nombre = $nombre;
         $this->email = $email;
         $this->password = $password;
     }

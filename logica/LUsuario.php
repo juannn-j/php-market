@@ -26,17 +26,27 @@ class LUser implements IUsuario {
     }
 
     public function guardar(Usuario $usuario) {
-        // TODO: Implementar lógica para insertar nuevo usuario
-    }
+        $nombre = $usuario->getNombre();
+        $email = $usuario->getCorreo();
+        $password = $usuario->getPass();
+        $tipo = $usuario->getTipo(); // 'A' o 'C'
 
-    public function actualizar(Usuario $usuario): bool {
-        // TODO: Implementar lógica para actualizar un usuario
-        return false;
-    }
+        $db = new DB();
+        $cn = $db->conectar();
 
-    public function eliminar(int $id): bool {
-        // TODO: Implementar lógica para eliminar usuario
-        return false;
+        $sql = "INSERT INTO usuarios (nombre, email, password, tipo) VALUES (:nombre, :email, :password, 'C')";
+        $ps = $cn->prepare($sql);
+        $ps->bindParam(':nombre', $nombre);
+        $ps->bindParam(':email', $email);
+        $ps->bindParam(':password', $password);
+
+        try {
+            $ps->execute();
+            return $ps->rowCount() > 0;
+        } catch (PDOException $e) {
+            error_log("Error al guardar usuario: " . $e->getMessage());
+            return false;
+        }
     }
 
     public function obtenerPorId(int $id): ?Usuario {

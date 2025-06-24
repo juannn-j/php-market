@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
 
-    $usuario = new Usuario($email, $password);
+    $usuario = new Usuario(null, $email, $password);
     $modelo = new LUser();
 
     $tipo = $modelo->validar($usuario);
@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Iniciar sesión</title>
+    <title>Inicio de Sesión</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <main class="form-signin text-center w-100 m-auto">
     <form method="POST">
-        <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+        <h1 class="h3 mb-3 fw-normal">Iniciar Sesión</h1>
 
         <?php if (!empty($mensaje)): ?>
             <div class="alert alert-danger"><?= htmlspecialchars($mensaje) ?></div>
@@ -65,22 +65,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <div class="form-floating mb-3">
             <input type="email" name="email" class="form-control" id="floatingInput" placeholder="name@example.com" required>
-            <label for="floatingInput">Email address</label>
+            <label for="floatingInput">Ingrese su correo</label>
         </div>
 
         <div class="form-floating mb-3">
             <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password" required>
-            <label for="floatingPassword">Password</label>
+            <label for="floatingPassword">Ingrese su contraseña</label>
         </div>
 
         <div class="form-check text-start my-3">
             <input class="form-check-input" type="checkbox" value="remember-me" id="rememberMe">
-            <label class="form-check-label" for="rememberMe">Remember me</label>
+            <label class="form-check-label" for="rememberMe">Recordar mi Cuenta</label>
         </div>
 
-        <button class="btn btn-primary w-100 py-2" type="submit">Login</button>
+        <button class="btn btn-primary w-100 py-2" type="submit">Ingresar</button>
         <hr>
-        <a href="#" class="nav-link px-2 text-primary">¿No tienes cuenta? Regístrate</a>
+        <a href="./FSignin.php" class="nav-link px-2 text-primary">¿No tienes cuenta? Regístrate</a>
     </form>
 </main>
 </body>
