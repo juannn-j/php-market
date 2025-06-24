@@ -83,11 +83,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <a href="#" class="nav-link px-2 text-primary">¿No tienes cuenta? Regístrate</a>
     </form>
 </main>
-
-<?php    
-    echo "<br>";
-    include './footer.php';
-?>
-
 </body>
 </html>
