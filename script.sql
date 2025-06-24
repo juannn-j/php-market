@@ -67,3 +67,6 @@ VALUES
 ('Samsung Galaxy Book3 Pro', 'Samsung', 'Pantalla AMOLED 3K, Intel i7, 16GB RAM, 512GB SSD.', 6490.00, 2, 'https://oechsle.vteximg.com.br/arquivos/ids/15312394-1000-1000/image-b53f23081da742399c4840662e692618.jpg?v=638281818215870000'),
 ('MSI Katana GF66', 'MSI', 'Laptop gamer con Intel i7, RTX 3050, 16GB RAM, 512GB SSD.', 4599.99, 4, 'https://asset.msi.com/resize/image/global/product/product_1619086146fdfbc8b34331ebecbf18cb444480b7d1.png62405b38c58fe0f07fcef2367d8a9ba1/600.png'),
 ('Gigabyte Aorus 15P', 'Gigabyte', 'Laptop gamer de alto rendimiento con i7, RTX 3070, 32GB RAM.', 7499.00, 2, 'https://www.kabifperu.com/imagenes/prod-24022021204746-laptop-gigabyte-aorus-15p-xc-i7-10870h-xc-8la2430sh-gaming-15-6-i7-512-ssd-32gb-rtx3070-8g-w10-deta.png');
+
+-- ad extension pg_trgm
+CREATE EXTENSION IF NOT EXISTS pg_trgm;
