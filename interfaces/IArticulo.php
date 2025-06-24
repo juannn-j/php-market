@@ -6,6 +6,7 @@ interface IArticulo {
     public function actualizar(Articulo $articulo): bool;
     public function eliminar(int $id): bool;
     
-    public function obtenerPorId(int $id): ?Articulo;
+    public function obtenerPorNombre(Articulo $articulo): array;
+    
 }
 ?>

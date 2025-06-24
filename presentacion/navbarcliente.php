@@ -1,7 +1,5 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+// Session is now started in the main file, so we don't need to start it here
 $carrito = isset($_SESSION['carrito']) ? $_SESSION['carrito'] : [];
 $cantidad = 0;
 foreach ($carrito as $item) {
@@ -23,9 +21,9 @@ foreach ($carrito as $item) {
                 <li><a href="#" class="nav-link px-2 text-white">Mis Pedidos</a></li>
             </ul>
 
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-                <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Buscar..."
-                    aria-label="Search">
+            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" action="./FBusqueda.php" method="GET">
+                <input type="search" name="q" class="form-control form-control-dark text-bg-dark" placeholder="Buscar..."
+                    aria-label="Search" value="<?= htmlspecialchars($_GET['q'] ?? '') ?>">
             </form>
 
             <div class="text-end d-flex align-items-center gap-2">
