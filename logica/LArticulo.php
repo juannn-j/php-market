@@ -81,10 +81,23 @@ class LArticulo implements IArticulo {
         $sql = "SELECT * FROM articulos WHERE id = :id";
         $ps = $cn->prepare($sql);
         $ps->bindParam(':id', $id);
-        
+
         if ($ps->execute()) {
-            return $ps->fetchObject('Articulo') ?: null;
+            $fila = $ps->fetch(PDO::FETCH_ASSOC);
+            if ($fila) {
+                $articulo = new Articulo(
+                    $fila['nombre'],
+                    $fila['marca'],
+                    $fila['descripcion'],
+                    (float)$fila['precio'],
+                    (int)$fila['stock'],
+                    $fila['imagen_url']
+                );
+                $articulo->setIdarticulo((int)$fila['id']);
+                return $articulo;
+            }
         }
+        return null;
     }
 }
 ?>
