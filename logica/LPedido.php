@@ -67,4 +67,13 @@ class LPedido implements IPedido {
         $ps->bindValue(':id', $pedidoId);
         return $ps->execute();
     }
+
+    public function eliminarPedido($id) {
+        $db = new DB();
+        $cn = $db->conectar();
+        $sql = "DELETE FROM pedidos WHERE id = :id";
+        $ps = $cn->prepare($sql);
+        $ps->bindValue(':id', $id);
+        return $ps->execute();
+    }
 }

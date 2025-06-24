@@ -41,6 +41,7 @@ if (isset($_POST['confirmar_pedido']) && !empty($_SESSION['carrito'])) {
             ];
             $_SESSION['carrito'] = [];
             $mensaje = '¡Pedido realizado con éxito!';
+
         } else {
             $mensaje = 'Error al guardar el pedido.';
         }
@@ -48,6 +49,7 @@ if (isset($_POST['confirmar_pedido']) && !empty($_SESSION['carrito'])) {
         $mensaje = 'Debes iniciar sesión para confirmar el pedido.';
     }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="es">

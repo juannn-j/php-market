@@ -71,14 +71,48 @@ class LArticulo implements IArticulo {
         return $ps->execute();
     }
 
-    public function eliminar(int $id): bool {
-        $db = new DB();
-        $cn = $db->conectar();
+public function eliminar(int $id): bool {
+    $db = new DB();
+    $cn = $db->conectar();
 
-        $sql = "DELETE FROM articulos WHERE id = :id";
-        $ps = $cn->prepare($sql);
-        return $ps->execute([':id' => $id]);
+    try {
+        // Iniciar transacción
+        $cn->beginTransaction();
+
+        // 1. Eliminar detalles del pedido relacionados al artículo
+        $sql1 = "DELETE FROM pedido_detalles WHERE articulo_id = :id";
+        $ps1 = $cn->prepare($sql1);
+        $ps1->execute([':id' => $id]);
+
+        // 2. Eliminar el artículo
+        $sql2 = "DELETE FROM articulos WHERE id = :id";
+        $ps2 = $cn->prepare($sql2);
+        $ps2->execute([':id' => $id]);
+
+        // 3. Eliminar pedidos que ya no tienen detalles (huérfanos)
+        $sql3 = "
+            DELETE FROM pedidos
+            WHERE id IN (
+                SELECT p.id
+                FROM pedidos p
+                LEFT JOIN pedido_detalles pd ON p.id = pd.pedido_id
+                WHERE pd.id IS NULL
+            )
+        ";
+        $ps3 = $cn->prepare($sql3);
+        $ps3->execute();
+
+        // Confirmar transacción
+        $cn->commit();
+        return true;
+
+    } catch (PDOException $e) {
+        // Revertir transacción en caso de error
+        $cn->rollBack();
+        error_log("Error al eliminar artículo: " . $e->getMessage());
+        return false;
     }
+}
 
     public function obtenerPorId(int $id): ?Articulo {
         $db = new DB();
