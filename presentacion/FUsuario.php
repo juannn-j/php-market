@@ -82,11 +82,9 @@ $articulos = $lArticulo->cargar();
 
 <body>
 
-    <div>
-        <?php
-        include './navbarcliente.php';
-        ?>
-    </div>
+    <?php
+    include './navbarcliente.php';
+    ?>
 
     <div class="container">
         <h1 class="mt-4">Catálogo de Artículos</h1>
@@ -116,8 +114,13 @@ $articulos = $lArticulo->cargar();
                 </div>
             <?php endforeach; ?>
         </div>
-                        
+
     </div>
+
+<?php    
+    echo "<br>";
+    include './footer.php';
+?>
 
 </body>
 

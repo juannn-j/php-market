@@ -80,6 +80,11 @@ class LArticulo implements IArticulo {
         return $ps->execute([':id' => $id]);
     }
 
+    public function obtenerPorNombre(Articulo $articulo): ?Articulo {
+        // TODO: Implementar lógica para obtener usuario por ID
+        return null;
+    }
+
     public function obtenerPorId(int $id): ?Articulo {
         $db = new DB();
         $cn = $db->conectar();
