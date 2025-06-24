@@ -137,5 +137,20 @@
             return $resultados;
         
     }
+
+    public function obtenerPorId(int $id): ?Articulo {
+        $db = new DB();
+        $cn = $db->conectar();
+
+        $sql = "SELECT * FROM articulos WHERE id = :id";
+        $ps = $cn->prepare($sql);
+        $ps->bindParam(':id', $id);
+        
+        if ($ps->execute()) {
+            return $ps->fetchObject('Articulo') ?: null;
+        }
+        
+        return null;
+    }
 }
 ?> 

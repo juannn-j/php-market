@@ -7,6 +7,6 @@ interface IArticulo {
     public function eliminar(int $id): bool;
     
     public function obtenerPorNombre(Articulo $articulo): array;
-    
+    public function obtenerPorId(int $id): ?Articulo;
 }
 ?>
