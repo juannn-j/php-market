@@ -1,7 +1,7 @@
 <?php
-require_once './datos/DB.php';
-require_once './entidades/Articulo.php';
-require_once './interfaces/IArticulo.php';
+require_once __DIR__ . '/../datos/DB.php';
+require_once __DIR__ . '/../entidades/Articulo.php';
+require_once __DIR__ . '/../interfaces/IArticulo.php';
 
 class LArticulo implements IArticulo {
     
@@ -11,12 +11,18 @@ class LArticulo implements IArticulo {
 
         $sql = "INSERT INTO articulos (nombre, marca, descripcion, precio, stock, imagen_url) VALUES (:nombre, :marca, :descripcion, :precio, :stock, :imagen_url)";
         $ps = $cn->prepare($sql);
-        $ps->bindParam(':nombre', $articulo->getNombre());
-        $ps->bindParam(':marca', $articulo->getMarca());
-        $ps->bindParam(':descripcion', $articulo->getDescripcion());
-        $ps->bindParam(':precio', $articulo->getPrecio());
-        $ps->bindParam(':stock', $articulo->getStock());
-        $ps->bindParam(':imagen_url', $articulo->getImagen());
+        $nombre = $articulo->getNombre();
+        $marca = $articulo->getMarca();
+        $descripcion = $articulo->getDescripcion();
+        $precio = $articulo->getPrecio();
+        $stock = $articulo->getStock();
+        $imagen = $articulo->getImagen();
+        $ps->bindParam(':nombre', $nombre);
+        $ps->bindParam(':marca', $marca);
+        $ps->bindParam(':descripcion', $descripcion);
+        $ps->bindParam(':precio', $precio);
+        $ps->bindParam(':stock', $stock);
+        $ps->bindParam(':imagen_url', $imagen);
 
         return $ps->execute();
     }
@@ -81,10 +87,23 @@ class LArticulo implements IArticulo {
         $sql = "SELECT * FROM articulos WHERE id = :id";
         $ps = $cn->prepare($sql);
         $ps->bindParam(':id', $id);
-        
+
         if ($ps->execute()) {
-            return $ps->fetchObject('Articulo') ?: null;
+            $fila = $ps->fetch(PDO::FETCH_ASSOC);
+            if ($fila) {
+                $articulo = new Articulo(
+                    $fila['nombre'],
+                    $fila['marca'],
+                    $fila['descripcion'],
+                    (float)$fila['precio'],
+                    (int)$fila['stock'],
+                    $fila['imagen_url']
+                );
+                $articulo->setIdarticulo((int)$fila['id']);
+                return $articulo;
+            }
         }
+        return null;
     }
 }
 ?>

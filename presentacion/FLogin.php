@@ -18,6 +18,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($tipo) {
         $_SESSION['login_user'] = $email;
         $_SESSION['rol'] = $tipo;
+        // Obtener el id del usuario y guardarlo en la sesión
+        $db = new DB();
+        $cn = $db->conectar();
+        $sql = "SELECT id FROM usuarios WHERE email = :email";
+        $ps = $cn->prepare($sql);
+        $ps->bindParam(':email', $email);
+        $ps->execute();
+        if ($row = $ps->fetch(PDO::FETCH_ASSOC)) {
+            $_SESSION['login_user_id'] = $row['id'];
+        }
 
         if ($tipo === 'A') {
             header("Location: FAdmin.php");

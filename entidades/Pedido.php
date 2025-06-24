@@ -36,5 +36,13 @@
     {
         $this->fecha = $fecha;
     }
+    public function getTotal()
+    {
+        return $this->total;
+    }
+    public function setTotal($total)
+    {
+        $this->total = $total;
+    }
 }
 ?>

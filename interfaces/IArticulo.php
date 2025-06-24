@@ -1,5 +1,5 @@
 <?php
-require_once './entidades/Articulo.php';
+require_once __DIR__ . '/../entidades/Articulo.php';
 interface IArticulo {
     public function guardar(Articulo $articulo): bool;
     public function cargar(): array;

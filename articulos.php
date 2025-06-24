@@ -1,7 +1,7 @@
 <?php
-require_once './datos/DB.php';
-require_once './logica/LArticulo.php';
-require_once './entidades/Articulo.php';
+require_once __DIR__ . '/datos/DB.php';
+require_once __DIR__ . '/logica/LArticulo.php';
+require_once __DIR__ . '/entidades/Articulo.php';
 
 $articuloLogic = new LArticulo();
 $articulos = $articuloLogic->cargar();
@@ -13,59 +13,7 @@ $articulos = $articuloLogic->cargar();
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Catálogo de Artículos</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f7f7f7;
-            margin: 0;
-            padding: 20px;
-        }
-        h1 {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .catalogo {
-            display: grid;
-            grid-template-columns: repeat(auto-fit,minmax(250px, 1fr));
-            gap: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .producto {
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .producto img {
-            width: 100%;
-            height: 180px;
-            object-fit: contain;
-            border-bottom: 1px solid #ddd;
-            margin-bottom: 12px;
-            border-radius: 4px;
-        }
-        .producto h2 {
-            font-size: 1.2rem;
-            margin: 0 0 10px;
-        }
-        .producto p {
-            flex-grow: 1;
-            margin: 0 0 10px;
-            color: #555;
-            font-size: 0.9rem;
-        }
-        .precio-stock {
-            font-weight: bold;
-            font-size: 1rem;
-            color: #222;
-            display: flex;
-            justify-content: space-between;
-        }
-    </style>
+    <link rel="stylesheet" href="assets/articulos.css">
 </head>
 <body>
 
