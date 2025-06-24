@@ -12,6 +12,8 @@
     include './navbar.php';
     echo "<br>";
     include './articulos.php';
+    echo "<br>";
+    include './footer.php';
 ?>
    
 </body>

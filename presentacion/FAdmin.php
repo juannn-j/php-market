@@ -134,6 +134,9 @@ $articulos = $articuloLogic->cargar();
         </div>
     </div>
 </div>
-<?php include './footer.php'; ?>
+<?php    
+    echo "<br>";
+    include './footer.php';
+?>
 </body>
 </html>

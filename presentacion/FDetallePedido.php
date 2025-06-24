@@ -130,5 +130,10 @@ if (isset($_POST['confirmar_pedido']) && !empty($_SESSION['carrito'])) {
             <?php unset($_SESSION['boleta']); endif; ?>
         </div>
     </div>
+
+<?php    
+    echo "<br>";
+    include './footer.php';
+?>
 </body>
 </html>
