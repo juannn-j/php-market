@@ -62,7 +62,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 
-$articulos = $articuloLogic->cargar();
+// Obtener término de búsqueda
+$busqueda = $_GET['q'] ?? '';
+$articulos = [];
+
+// Cargar artículos según búsqueda
+if (!empty($busqueda)) {
+    $articuloBusqueda = new Articulo($busqueda);
+    $articulos = $articuloLogic->obtenerPorNombre($articuloBusqueda);
+} else {
+    // Si no hay búsqueda, cargar todos los artículos
+    $articulos = $articuloLogic->cargar();
+}
 ?>
 
 <!DOCTYPE html>
@@ -70,7 +81,7 @@ $articulos = $articuloLogic->cargar();
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Gestión de Artículos</title>
+    <title>Gestión de Artículos - Búsqueda</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="./../assets/articulos.css">
     <link rel="stylesheet" href="./../assets/fadmin.css">
@@ -82,12 +93,32 @@ $articulos = $articuloLogic->cargar();
     echo "<br>";
 ?>
 
-<h1>Gestión de Artículos</h1>
+<h1>Gestión de Artículos - Búsqueda</h1>
+
+<!-- Formulario de búsqueda simple -->
+<form method="get" style="margin-bottom: 20px;">
+    <input type="text" name="q" placeholder="Buscar artículos..." value="<?= htmlspecialchars($busqueda) ?>" style="padding: 8px; width: 300px; margin-right: 10px;">
+    <button type="submit" style="padding: 8px 15px; background: #007bff; color: white; border: none; border-radius: 4px;">Buscar</button>
+    <?php if (!empty($busqueda)): ?>
+        <a href="FBusquedaAdmin.php" style="padding: 8px 15px; background: #6c757d; color: white; text-decoration: none; border-radius: 4px; margin-left: 10px;">Limpiar</a>
+    <?php endif; ?>
+</form>
+
+<?php if (!empty($busqueda)): ?>
+    <p>Buscando: "<strong><?= htmlspecialchars($busqueda) ?></strong>" - Resultados: <?= count($articulos) ?> artículo(s)</p>
+    <!-- Debug info -->
+    <p style="background:#f0f0f0; padding:5px; font-size:12px;">
+        Debug: Término de búsqueda = "<?= htmlspecialchars($busqueda) ?>", 
+        Artículos encontrados = <?= count($articulos) ?>
+    </p>
+<?php endif; ?>
+
 <?php if ($mensaje): ?>
     <div style="background:#e0ffe0; padding:10px; border-radius:5px; margin-bottom:15px; color:#222; text-align:center;">
         <?= htmlspecialchars($mensaje) ?>
     </div>
 <?php endif; ?>
+
 <div class="fadmin-container">
     <div class="crud-form">
         <h2><?= $editando ? 'Editar' : 'Agregar' ?> Artículo</h2>
@@ -103,7 +134,7 @@ $articulos = $articuloLogic->cargar();
             <input type="text" name="imagen" placeholder="URL de la imagen" value="<?= $editando ? htmlspecialchars($articuloEdit->getImagen()) : '' ?>">
             <button type="submit"><?= $editando ? 'Actualizar' : 'Agregar' ?></button>
             <?php if ($editando): ?>
-                <a href="FAdmin.php" style="display:inline-block;margin-top:10px;">Cancelar</a>
+                <a href="FBusquedaAdmin.php<?= !empty($busqueda) ? '?q=' . urlencode($busqueda) : '' ?>" style="display:inline-block;margin-top:10px;">Cancelar</a>
             <?php endif; ?>
         </form>
     </div>
@@ -126,17 +157,18 @@ $articulos = $articuloLogic->cargar();
                         <span>Stock: <?= (int)$articulo->getStock() ?></span>
                     </div>
                     <div class="acciones">
-                        <a href="?editar=<?= $articulo->getIdarticulo() ?>" style="background:#ffc107;padding:5px 10px;border-radius:4px;text-decoration:none;color:#222;">Editar</a>
-                        <a href="?eliminar=<?= $articulo->getIdarticulo() ?>" onclick="return confirm('¿Seguro que deseas eliminar este artículo?');" style="background:#dc3545;padding:5px 10px;border-radius:4px;text-decoration:none;color:#fff;">Eliminar</a>
+                        <a href="?editar=<?= $articulo->getIdarticulo() ?><?= !empty($busqueda) ? '&q=' . urlencode($busqueda) : '' ?>" style="background:#ffc107;padding:5px 10px;border-radius:4px;text-decoration:none;color:#222;">Editar</a>
+                        <a href="?eliminar=<?= $articulo->getIdarticulo() ?><?= !empty($busqueda) ? '&q=' . urlencode($busqueda) : '' ?>" onclick="return confirm('¿Seguro que deseas eliminar este artículo?');" style="background:#dc3545;padding:5px 10px;border-radius:4px;text-decoration:none;color:#fff;">Eliminar</a>
                     </div>
                 </div>
             <?php endforeach; ?>
         </div>
     </div>
 </div>
+
 <?php    
     echo "<br>";
     include '../templates/footer.php';
 ?>
 </body>
-</html>
+</html> 

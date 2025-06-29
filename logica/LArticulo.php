@@ -64,13 +64,22 @@ class LArticulo implements IArticulo
 
         $sql = "UPDATE articulos SET nombre = :nombre, marca = :marca, descripcion = :descripcion, precio = :precio, stock = :stock, imagen_url = :imagen_url WHERE id = :id";
         $ps = $cn->prepare($sql);
-        $ps->bindParam(':id', $articulo->getIdarticulo());
-        $ps->bindParam(':nombre', $articulo->getNombre());
-        $ps->bindParam(':marca', $articulo->getMarca());
-        $ps->bindParam(':descripcion', $articulo->getDescripcion());
-        $ps->bindParam(':precio', $articulo->getPrecio());
-        $ps->bindParam(':stock', $articulo->getStock());
-        $ps->bindParam(':imagen_url', $articulo->getImagen());
+        
+        $id = $articulo->getIdarticulo();
+        $nombre = $articulo->getNombre();
+        $marca = $articulo->getMarca();
+        $descripcion = $articulo->getDescripcion();
+        $precio = $articulo->getPrecio();
+        $stock = $articulo->getStock();
+        $imagen = $articulo->getImagen();
+        
+        $ps->bindParam(':id', $id);
+        $ps->bindParam(':nombre', $nombre);
+        $ps->bindParam(':marca', $marca);
+        $ps->bindParam(':descripcion', $descripcion);
+        $ps->bindParam(':precio', $precio);
+        $ps->bindParam(':stock', $stock);
+        $ps->bindParam(':imagen_url', $imagen);
 
         return $ps->execute();
     }
@@ -126,20 +135,34 @@ class LArticulo implements IArticulo
         $sql = "
                 SELECT *
                 FROM articulos
-                WHERE similarity(nombre, :busqueda) > 0.2
-                ORDER BY similarity(nombre, :busqueda) DESC
+                WHERE nombre LIKE :busqueda OR marca LIKE :busqueda OR descripcion LIKE :busqueda
+                ORDER BY nombre ASC
                 LIMIT 20;
             ";
 
         $ps = $cn->prepare($sql);
 
-        $nombre = $articulo->getNombre();  // Método para obtener el nombre del objeto
-        $ps->bindParam(':busqueda', $nombre);
+        $busquedaLike = '%' . $articulo->getNombre() . '%';  // Agregar % para búsqueda LIKE
+        $ps->bindParam(':busqueda', $busquedaLike);
 
         $ps->execute();
         $resultados = $ps->fetchAll(PDO::FETCH_ASSOC);
+        
+        $articulos = [];
+        foreach ($resultados as $fila) {
+            $art = new Articulo(
+                $fila['nombre'],
+                $fila['marca'],
+                $fila['descripcion'],
+                (float)$fila['precio'],
+                (int)$fila['stock'],
+                $fila['imagen_url']
+            );
+            $art->setIdarticulo((int)$fila['id']);
+            $articulos[] = $art;
+        }
 
-        return $resultados;
+        return $articulos;
     }
 
     public function obtenerPorId(int $id): ?Articulo
@@ -155,14 +178,15 @@ class LArticulo implements IArticulo
             $fila = $ps->fetch(PDO::FETCH_ASSOC);
 
             if ($fila) {
-                $articulo = new Articulo();
-                $articulo->setIdarticulo($fila['id']); // Si la columna se llama 'id'
-                $articulo->setNombre($fila['nombre']);
-                $articulo->setMarca($fila['marca']);
-                $articulo->setDescripcion($fila['descripcion']);
-                $articulo->setPrecio($fila['precio']);
-                $articulo->setStock($fila['stock']);
-                $articulo->setImagen($fila['imagen_url']); // Si la columna es 'imagen_url'
+                $articulo = new Articulo(
+                    $fila['nombre'],
+                    $fila['marca'],
+                    $fila['descripcion'],
+                    (float)$fila['precio'],
+                    (int)$fila['stock'],
+                    $fila['imagen_url']
+                );
+                $articulo->setIdarticulo((int)$fila['id']);
 
                 return $articulo;
             }
