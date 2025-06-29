@@ -95,23 +95,6 @@ if (!empty($busqueda)) {
 
 <h1>Gestión de Artículos - Búsqueda</h1>
 
-<!-- Formulario de búsqueda simple -->
-<form method="get" style="margin-bottom: 20px;">
-    <input type="text" name="q" placeholder="Buscar artículos..." value="<?= htmlspecialchars($busqueda) ?>" style="padding: 8px; width: 300px; margin-right: 10px;">
-    <button type="submit" style="padding: 8px 15px; background: #007bff; color: white; border: none; border-radius: 4px;">Buscar</button>
-    <?php if (!empty($busqueda)): ?>
-        <a href="FBusquedaAdmin.php" style="padding: 8px 15px; background: #6c757d; color: white; text-decoration: none; border-radius: 4px; margin-left: 10px;">Limpiar</a>
-    <?php endif; ?>
-</form>
-
-<?php if (!empty($busqueda)): ?>
-    <p>Buscando: "<strong><?= htmlspecialchars($busqueda) ?></strong>" - Resultados: <?= count($articulos) ?> artículo(s)</p>
-    <!-- Debug info -->
-    <p style="background:#f0f0f0; padding:5px; font-size:12px;">
-        Debug: Término de búsqueda = "<?= htmlspecialchars($busqueda) ?>", 
-        Artículos encontrados = <?= count($articulos) ?>
-    </p>
-<?php endif; ?>
 
 <?php if ($mensaje): ?>
     <div style="background:#e0ffe0; padding:10px; border-radius:5px; margin-bottom:15px; color:#222; text-align:center;">

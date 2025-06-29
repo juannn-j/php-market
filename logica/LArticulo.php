@@ -135,9 +135,9 @@ class LArticulo implements IArticulo
         $sql = "
                 SELECT *
                 FROM articulos
-                WHERE nombre LIKE :busqueda OR marca LIKE :busqueda OR descripcion LIKE :busqueda
-                ORDER BY nombre ASC
-                LIMIT 20;
+                WHERE similarity(nombre, :busqueda) > 0.2
+                ORDER BY similarity(nombre, :busqueda) DESC
+                LIMIT 20;       
             ";
 
         $ps = $cn->prepare($sql);
