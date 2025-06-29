@@ -16,16 +16,16 @@ foreach ($carrito as $item) {
             </a>
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="./FUsuario.php" class="nav-link px-2 text-white">Venta Laptops</a></li>
+                <li><a href="./../presentacion/FUsuario.php" class="nav-link px-2 text-white">Venta Laptops</a></li>
             </ul>
 
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" action="./FBusqueda.php" method="GET">
+            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" action="../presentacion/FBusqueda.php" method="GET">
                 <input type="search" name="q" class="form-control form-control-dark text-bg-dark" placeholder="Buscar..."
                     aria-label="Search" value="<?= htmlspecialchars($_GET['q'] ?? '') ?>">
             </form>
 
             <div class="text-end d-flex align-items-center gap-2">
-                <a href="./FDetallePedido.php" class="btn btn-warning position-relative">
+                <a href="../presentacion/FDetallePedido.php" class="btn btn-warning position-relative">
                     🛒
                     <?php if ($cantidad > 0): ?>
                         <span class="badge" style="position:absolute;top:5px;right:5px; background:#dc3545; color:#fff; border-radius:50%; padding:2px 7px; font-size:0.9rem;">
@@ -33,7 +33,7 @@ foreach ($carrito as $item) {
                         </span>
                     <?php endif; ?>
                 </a>
-                <a href="./logout.php" class="btn btn-danger">Logout</a>
+                <a href="../templates/logout.php" class="btn btn-danger">Logout</a>
             </div>
         </div>
     </div>

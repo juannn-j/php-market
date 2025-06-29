@@ -14,7 +14,7 @@
         header("Location: " . $redirect_url);
         exit();
     } else {
-        include './navbar.php';
+        include '../templates/navbar.php';
     }
 ?>
 <!DOCTYPE html>

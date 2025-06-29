@@ -9,11 +9,11 @@
 <body>
 
 <?php
-    include './navbar.php';
+    include './templates/navbar.php';
     echo "<br>";
     include './articulos.php';
     echo "<br>";
-    include './footer.php';
+    include './templates/footer.php';
 ?>
 
 </body>

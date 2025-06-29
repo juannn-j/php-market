@@ -78,7 +78,7 @@ $articulos = $articuloLogic->cargar();
 <body>
 
 <?php
-    include './navbar.php';
+    include '../templates/navbar.php';
     echo "<br>";
 ?>
 
@@ -136,7 +136,7 @@ $articulos = $articuloLogic->cargar();
 </div>
 <?php    
     echo "<br>";
-    include './footer.php';
+    include '../templates/footer.php';
 ?>
 </body>
 </html>

@@ -6,9 +6,9 @@
     
     // Verificar si el usuario está autenticado
     if (isset($_SESSION['login_user']) && isset($_SESSION['rol']) && $_SESSION['rol'] === 'C') {
-        include './navbarcliente.php';
+        include '../templates/navbarcliente.php';
     } else {
-        include './navbar.php';
+        include '../templates/navbar.php';
     }
     
     // Inicializar carrito si no existe

@@ -83,7 +83,7 @@ $articulos = $lArticulo->cargar();
 <body>
 
     <?php
-    include './navbarcliente.php';
+    include '../templates/navbarcliente.php';
     ?>
 
     <div class="container">
@@ -119,7 +119,7 @@ $articulos = $lArticulo->cargar();
 
 <?php    
     echo "<br>";
-    include './footer.php';
+    include '../templates/footer.php';
 ?>
 
 </body>

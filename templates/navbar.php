@@ -11,14 +11,14 @@
                 <li><a href="./../index.php" class="nav-link px-2 text-white">Venta Laptops</a></li>
             </ul>
 
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" action="./FBusqueda.php" method="GET">
+            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" action="../presentacion/FBusqueda.php" method="GET">
                 <input type="search" name="q" class="form-control form-control-dark text-bg-dark" placeholder="Search..."
                     aria-label="Search" value="<?= htmlspecialchars($_GET['q'] ?? '') ?>">
             </form>
 
             <div class="text-end">
-                <a href="./FLogin.php" class="btn btn-outline-light me-2">Login</a>
-                <a href="./FSign.php" class="btn btn-warning me-2">Sign-up</a>
+                <a href="../presentacion/FLogin.php" class="btn btn-outline-light me-2">Login</a>
+                <a href="../presentacion/FSignin.php" class="btn btn-warning me-2">Sign-up</a>
             </div>
 
         </div>

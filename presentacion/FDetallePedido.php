@@ -72,7 +72,7 @@ if (isset($_POST['confirmar_pedido']) && !empty($_SESSION['carrito'])) {
     </style>
 </head>
 <body>
-    <?php include './navbarcliente.php'; ?>
+    <?php include '../templates/navbarcliente.php'; ?>
     <div class="container">
         <div class="carrito-box">
             <h2>Carrito de Compras</h2>
@@ -133,7 +133,7 @@ if (isset($_POST['confirmar_pedido']) && !empty($_SESSION['carrito'])) {
 
 <?php    
     echo "<br>";
-    include './footer.php';
+    include '../templates/footer.php';
 ?>
 </body>
 </html>
