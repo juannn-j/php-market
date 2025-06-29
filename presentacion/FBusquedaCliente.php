@@ -6,15 +6,33 @@
     
     // Verificar si el usuario está autenticado
     if (isset($_SESSION['login_user']) && isset($_SESSION['rol']) && $_SESSION['rol'] === 'C') {
-        $busqueda = $_GET['q'] ?? '';
-        $redirect_url = './FBusquedaCliente.php';
-        if (!empty($busqueda)) {
-            $redirect_url .= '?q=' . urlencode($busqueda);
-        }
-        header("Location: " . $redirect_url);
-        exit();
+        include './navbarcliente.php';
     } else {
         include './navbar.php';
+    }
+    
+    // Inicializar carrito si no existe
+    if (!isset($_SESSION['carrito'])) {
+        $_SESSION['carrito'] = [];
+    }
+
+    // Agregar al carrito
+    if (isset($_POST['agregar_carrito'])) {
+        $id = $_POST['idarticulo'];
+        $nombre = $_POST['nombre'];
+        $precio = $_POST['precio'];
+        $cantidad = $_POST['cantidad'];
+        // Si ya existe, sumar cantidad
+        if (isset($_SESSION['carrito'][$id])) {
+            $_SESSION['carrito'][$id]['cantidad'] += $cantidad;
+        } else {
+            $_SESSION['carrito'][$id] = [
+                'id' => $id,
+                'nombre' => $nombre,
+                'precio' => $precio,
+                'cantidad' => $cantidad
+            ];
+        }
     }
 ?>
 <!DOCTYPE html>
@@ -91,6 +109,13 @@
                         <span>Precio: $<?= number_format($articulo->getPrecio(), 2) ?></span>
                         <span>Stock: <?= (int) $articulo->getStock() ?></span>
                     </div>
+                    <form method="post">
+                        <input type="hidden" name="idarticulo" value="<?= $articulo->getIdarticulo() ?>">
+                        <input type="hidden" name="nombre" value="<?= htmlspecialchars($articulo->getNombre()) ?>">
+                        <input type="hidden" name="precio" value="<?= $articulo->getPrecio() ?>">
+                        <input type="number" name="cantidad" value="1" min="1" max="<?= (int)$articulo->getStock() ?>">
+                        <button type="submit" name="agregar_carrito">Agregar al carrito</button>
+                    </form>
                 </div>
             <?php endforeach; ?>
         </div>
