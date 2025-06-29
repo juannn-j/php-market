@@ -3,6 +3,13 @@
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
+    
+    // Verificar si el usuario está autenticado
+    if (isset($_SESSION['login_user']) && isset($_SESSION['rol']) && $_SESSION['rol'] === 'C') {
+        include './navbarcliente.php';
+    } else {
+        include './navbar.php';
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,9 +23,6 @@
 <body>
 
 <?php
-    include './navbarcliente.php';
-    
-    // Incluir las clases necesarias
     require_once '../logica/LArticulo.php';
     require_once '../entidades/Articulo.php';
     
@@ -30,17 +34,16 @@
         $articuloBusqueda = new Articulo($busqueda);
         $resultados = $lArticulo->obtenerPorNombre($articuloBusqueda);
         
-        // Convertir los resultados a objetos Articulo
         foreach ($resultados as $fila) {
             $articulo = new Articulo(
                 $fila['nombre'],
                 $fila['marca'],
                 $fila['descripcion'],
-                (float)$fila['precio'],
-                (int)$fila['stock'],
+                (float) $fila['precio'],
+                (int) $fila['stock'],
                 $fila['imagen_url']
             );
-            $articulo->setIdarticulo((int)$fila['id']);
+            $articulo->setIdarticulo((int) $fila['id']);
             $articulos[] = $articulo;
         }
     }
@@ -80,7 +83,7 @@
                     <p><?= htmlspecialchars($articulo->getDescripcion()) ?></p>
                     <div class="precio-stock">
                         <span>Precio: $<?= number_format($articulo->getPrecio(), 2) ?></span>
-                        <span>Stock: <?= (int)$articulo->getStock() ?></span>
+                        <span>Stock: <?= (int) $articulo->getStock() ?></span>
                     </div>
                 </div>
             <?php endforeach; ?>
