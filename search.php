@@ -78,13 +78,11 @@ if ($rol === 'C' && isset($_POST['agregar_carrito'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Venta Laptops - Búsqueda</title>
+    <title>🔍 Búsqueda</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="styles/bsr.css">
+    <link rel="stylesheet" href="styles/customer.css">
     <?php if ($rol === 'A'): ?>
         <link rel="stylesheet" href="styles/admin.css">
-    <?php elseif ($rol === 'C'): ?>
-        <link rel="stylesheet" href="styles/customer.css">
     <?php endif; ?>
 </head>
 <body>
@@ -148,6 +146,12 @@ if ($rol === 'C' && isset($_POST['agregar_carrito'])) {
                             <input type="number" name="cantidad" value="1" min="1" max="<?= (int)$articulo['stock'] ?>">
                             <button type="submit" name="agregar_carrito">Agregar al carrito</button>
                         </form>
+                    <?php else: ?>
+                        <!-- Acciones para usuarios no logueados -->
+                        <div class="acciones-no-login">
+                            <input type="number" value="1" min="1" max="<?= (int)$articulo['stock'] ?>">
+                            <button type="button" onclick="mostrarAlertaLogin()">Comprar</button>
+                        </div>
                     <?php endif; ?>
                 </div>
             <?php endforeach; ?>
@@ -155,6 +159,36 @@ if ($rol === 'C' && isset($_POST['agregar_carrito'])) {
     <?php endif; ?>
 </div>
 
+<!-- Modal de alerta para login -->
+<div id="modalLogin" class="modal-bg" style="display: none;">
+    <div class="modal-box">
+        <button class="close" onclick="cerrarModal()">&times;</button>
+        <h3>Iniciar Sesión Requerido</h3>
+        <p>Para realizar compras, necesitas iniciar sesión en tu cuenta.</p>
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+            <a href="login.php" class="btn btn-primary">Iniciar Sesión</a>
+            <a href="signin.php" class="btn btn-primary">Registrarse</a>
+            <button onclick="cerrarModal()" class="btn btn-secondary">Cancelar</button>
+        </div>
+    </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+function mostrarAlertaLogin() {
+    document.getElementById('modalLogin').style.display = 'flex';
+}
+
+function cerrarModal() {
+    document.getElementById('modalLogin').style.display = 'none';
+}
+
+// Cerrar modal al hacer clic fuera de él
+document.getElementById('modalLogin').addEventListener('click', function(e) {
+    if (e.target === this) {
+        cerrarModal();
+    }
+});
+</script>
 </body>
 </html> 

@@ -99,18 +99,6 @@ if (isset($_POST['confirmar_pedido']) && !empty($_SESSION['carrito'])) {
         $mensaje = '❌ Debes iniciar sesión para confirmar el pedido.';
     }
 }
-
-// Obtener artículos
-$articulos = [];
-try {
-    $cn = DB::conectar();
-    $sql = "SELECT * FROM articulos ORDER BY nombre";
-    $ps = $cn->prepare($sql);
-    $ps->execute();
-    $articulos = $ps->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    $mensaje = '❌ Error al cargar artículos: ' . $e->getMessage();
-}
 ?>
 
 <!DOCTYPE html>
@@ -118,7 +106,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo de Artículos - Cliente</title>
+    <title>🧑‍🦰 Cliente</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles/customer.css">
     <style>
@@ -138,39 +126,14 @@ try {
 <?php include './templates/nbar.php'; ?>
 
 <div class="container">
-    <h1 class="mt-4">Catálogo de Artículos</h1>
-    
     <?php if (!empty($mensaje)): ?>
         <div class="alert <?= strpos($mensaje, '✅') !== false ? 'alert-success' : 'alert-danger' ?>">
             <?= htmlspecialchars($mensaje) ?>
         </div>
     <?php endif; ?>
     
-    <div class="catalogo">
-        <?php foreach ($articulos as $articulo): ?>
-            <div class="producto">
-                <?php if (!empty($articulo['imagen_url'])): ?>
-                    <img src="<?= htmlspecialchars($articulo['imagen_url']) ?>" alt="<?= htmlspecialchars($articulo['nombre']) ?>" />
-                <?php else: ?>
-                    <img src="https://via.placeholder.com/250x180?text=Sin+Imagen" alt="Sin Imagen" />
-                <?php endif; ?>
-                <h2><?= htmlspecialchars($articulo['nombre']) ?></h2>
-                <p><strong>Marca:</strong> <?= htmlspecialchars($articulo['marca']) ?></p>
-                <p><?= htmlspecialchars($articulo['descripcion']) ?></p>
-                <div class="precio-stock">
-                    <span>Precio: $<?= number_format($articulo['precio'], 2) ?></span>
-                    <span>Stock: <?= (int)$articulo['stock'] ?></span>
-                </div>
-                <form method="post">
-                    <input type="hidden" name="idarticulo" value="<?= $articulo['id'] ?>">
-                    <input type="hidden" name="nombre" value="<?= htmlspecialchars($articulo['nombre']) ?>">
-                    <input type="hidden" name="precio" value="<?= $articulo['precio'] ?>">
-                    <input type="number" name="cantidad" value="1" min="1" max="<?= (int)$articulo['stock'] ?>">
-                    <button type="submit" name="agregar_carrito">Agregar al carrito</button>
-                </form>
-            </div>
-        <?php endforeach; ?>
-    </div>
+    <!-- Usar el template all.php para el catálogo -->
+    <?php include './templates/all.php'; ?>
     
     <?php if (!empty($_SESSION['boleta']) && strpos($mensaje, '✅') !== false): ?>
         <div class="boleta-box">

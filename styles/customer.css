@@ -77,6 +77,37 @@ h1 {
     background: #0056b3;
 }
 
+/* Estilos para usuarios no logueados */
+.acciones-no-login {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.acciones-no-login input[type="number"] {
+    width: 60px;
+    padding: 4px 6px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+.acciones-no-login button {
+    padding: 6px 14px;
+    border-radius: 4px;
+    border: none;
+    background: #007bff;
+    color: #fff;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.acciones-no-login button:hover {
+    background: #0056b3;
+}
+
 .carrito-box {
     background: #fff;
     border-radius: 8px;

@@ -53,8 +53,8 @@ $usuario = $_SESSION['login_user'] ?? null;
                     <a href="../logout.php" class="btn btn-danger">Logout</a>
                 <?php else: ?>
                     <!-- Usuario no logueado -->
-                    <a href="../login.php" class="btn btn-outline-light me-2">Login</a>
-                    <a href="../signin.php" class="btn btn-warning me-2">Sign-up</a>
+                    <a href="../login.php" class="btn btn-primary">Iniciar Sesión</a>
+                    <a href="../signin.php" class="btn btn-primary">Registrarse</a>
                 <?php endif; ?>
             </div>
         </div>

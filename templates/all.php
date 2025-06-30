@@ -2,6 +2,10 @@
 // Incluir la conexión a base de datos
 require_once __DIR__ . '/../db.php';
 
+// Determinar el rol del usuario
+$rol = $_SESSION['rol'] ?? null;
+$usuario = $_SESSION['login_user'] ?? null;
+
 // Obtener todos los artículos
 $articulos = [];
 
@@ -31,7 +35,7 @@ try {
 }
 ?>
 
-<link rel="stylesheet" href="../styles/all.css">
+<link rel="stylesheet" href="../styles/customer.css">
 
 <div class="container mt-4">
     <h1>Catálogo de Artículos</h1>
@@ -64,8 +68,62 @@ try {
                         <span>Precio: $<?= number_format($articulo['precio'], 2) ?></span>
                         <span>Stock: <?= $articulo['stock'] ?></span>
                     </div>
+                    
+                    <?php if ($rol === 'A'): ?>
+                        <!-- Acciones para Administrador -->
+                        <div class="acciones">
+                            <a href="../admin.php?editar=<?= $articulo['id'] ?>" style="background:#ffc107;padding:5px 10px;border-radius:4px;text-decoration:none;color:#222;">Editar</a>
+                            <a href="../admin.php?eliminar=<?= $articulo['id'] ?>" onclick="return confirm('¿Seguro que deseas eliminar este artículo?');" style="background:#dc3545;padding:5px 10px;border-radius:4px;text-decoration:none;color:#fff;">Eliminar</a>
+                        </div>
+                    <?php elseif ($rol === 'C'): ?>
+                        <!-- Acciones para Cliente -->
+                        <form method="post" action="../customer.php">
+                            <input type="hidden" name="idarticulo" value="<?= $articulo['id'] ?>">
+                            <input type="hidden" name="nombre" value="<?= htmlspecialchars($articulo['nombre']) ?>">
+                            <input type="hidden" name="precio" value="<?= $articulo['precio'] ?>">
+                            <input type="number" name="cantidad" value="1" min="1" max="<?= (int)$articulo['stock'] ?>">
+                            <button type="submit" name="agregar_carrito">Agregar al carrito</button>
+                        </form>
+                    <?php else: ?>
+                        <!-- Acciones para usuarios no logueados -->
+                        <div class="acciones-no-login">
+                            <input type="number" value="1" min="1" max="<?= (int)$articulo['stock'] ?>">
+                            <button type="button" onclick="mostrarAlertaLogin()">Comprar</button>
+                        </div>
+                    <?php endif; ?>
                 </div>
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
 </div>
+
+<!-- Modal de alerta para login -->
+<div id="modalLogin" class="modal-bg" style="display: none;">
+    <div class="modal-box">
+        <button class="close" onclick="cerrarModal()">&times;</button>
+        <h3>Iniciar Sesión Requerido</h3>
+        <p>Para realizar compras, necesitas iniciar sesión en tu cuenta.</p>
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+            <a href="../login.php" class="btn btn-primary">Iniciar Sesión</a>
+            <a href="../signin.php" class="btn btn-outline-primary">Registrarse</a>
+            <button onclick="cerrarModal()" class="btn btn-secondary">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+<script>
+function mostrarAlertaLogin() {
+    document.getElementById('modalLogin').style.display = 'flex';
+}
+
+function cerrarModal() {
+    document.getElementById('modalLogin').style.display = 'none';
+}
+
+// Cerrar modal al hacer clic fuera de él
+document.getElementById('modalLogin').addEventListener('click', function(e) {
+    if (e.target === this) {
+        cerrarModal();
+    }
+});
+</script>

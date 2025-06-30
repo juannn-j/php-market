@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 } elseif ($row['tipo'] === 'C') {
                     header("Location: customer.php");
                 } else {
-                    header("Location: choose.php");
+                    $mensaje = "❌ Tipo de usuario no válido. Contacta al administrador.";
                 }
                 exit;
             } else {
@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Inicio de Sesión</title>
+    <title>👤 Inicio de Sesión</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="styles/login.css" rel="stylesheet">
