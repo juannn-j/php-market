@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Protección: solo admin
 if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'A') {
     header('Location: index.php');
     exit;
@@ -11,26 +10,21 @@ require_once 'db.php';
 
 $mensaje = '';
 
-// Eliminar artículo
 if (isset($_GET['eliminar'])) {
     $id = (int)$_GET['eliminar'];
     try {
         $cn = DB::conectar();
         
-        // Iniciar transacción
         $cn->beginTransaction();
         
-        // Eliminar detalles del pedido relacionados
         $sql1 = "DELETE FROM pedido_detalles WHERE articulo_id = :id";
         $ps1 = $cn->prepare($sql1);
         $ps1->execute([':id' => $id]);
         
-        // Eliminar el artículo
         $sql2 = "DELETE FROM articulos WHERE id = :id";
         $ps2 = $cn->prepare($sql2);
         $ps2->execute([':id' => $id]);
         
-        // Confirmar transacción
         $cn->commit();
         $mensaje = '✅ Artículo eliminado correctamente.';
     } catch (PDOException $e) {
@@ -39,7 +33,6 @@ if (isset($_GET['eliminar'])) {
     }
 }
 
-// Editar artículo (mostrar datos en el form)
 $editando = false;
 $articuloEdit = null;
 if (isset($_GET['editar'])) {
@@ -56,7 +49,6 @@ if (isset($_GET['editar'])) {
     }
 }
 
-// Guardar nuevo o actualizar
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre = $_POST['nombre'] ?? '';
     $marca = $_POST['marca'] ?? '';
@@ -70,7 +62,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $cn = DB::conectar();
         
         if ($id) {
-            // Actualizar
             $sql = "UPDATE articulos SET nombre = :nombre, marca = :marca, descripcion = :descripcion, precio = :precio, stock = :stock, imagen_url = :imagen WHERE id = :id";
             $ps = $cn->prepare($sql);
             $ps->execute([
@@ -84,7 +75,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ]);
             $mensaje = '✅ Artículo actualizado correctamente.';
         } else {
-            // Insertar nuevo
             $sql = "INSERT INTO articulos (nombre, marca, descripcion, precio, stock, imagen_url) VALUES (:nombre, :marca, :descripcion, :precio, :stock, :imagen)";
             $ps = $cn->prepare($sql);
             $ps->execute([
@@ -98,7 +88,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $mensaje = '✅ Artículo agregado correctamente.';
         }
         
-        // Redireccionar para evitar reenvío del formulario
         header('Location: ' . $_SERVER['PHP_SELF']);
         exit;
     } catch (PDOException $e) {
@@ -106,7 +95,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Cargar todos los artículos
 $articulos = [];
 try {
     $cn = DB::conectar();

@@ -1,18 +1,15 @@
 <?php
-// Incluir la conexión a base de datos
+
 require_once __DIR__ . '/../db.php';
 
-// Determinar el rol del usuario
 $rol = $_SESSION['rol'] ?? null;
 $usuario = $_SESSION['login_user'] ?? null;
 
-// Obtener todos los artículos
 $articulos = [];
 
 try {
     $cn = DB::conectar();
     
-    // Consulta para obtener todos los artículos
     $sql = "SELECT * FROM articulos ORDER BY nombre";
     $ps = $cn->prepare($sql);
     $ps->execute();
@@ -97,7 +94,7 @@ try {
     <?php endif; ?>
 </div>
 
-<!-- Modal de alerta para login -->
+
 <div id="modalLogin" class="modal-bg" style="display: none;">
     <div class="modal-box">
         <button class="close" onclick="cerrarModal()">&times;</button>
@@ -120,7 +117,6 @@ function cerrarModal() {
     document.getElementById('modalLogin').style.display = 'none';
 }
 
-// Cerrar modal al hacer clic fuera de él
 document.getElementById('modalLogin').addEventListener('click', function(e) {
     if (e.target === this) {
         cerrarModal();

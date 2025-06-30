@@ -1,12 +1,11 @@
 <?php
-// Calcular cantidad de items en el carrito para clientes
+
 $carrito = isset($_SESSION['carrito']) ? $_SESSION['carrito'] : [];
 $cantidad = 0;
 foreach ($carrito as $item) {
     $cantidad += $item['cantidad'];
 }
 
-// Determinar el rol del usuario
 $rol = $_SESSION['rol'] ?? null;
 $usuario = $_SESSION['login_user'] ?? null;
 ?>
@@ -16,13 +15,13 @@ $usuario = $_SESSION['login_user'] ?? null;
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                 <?php if ($rol === 'A'): ?>
-                    <!-- Navegación para Administrador -->
+
                     <li><a href="../admin.php" class="nav-link px-2 text-white">Gestión Artículos</a></li>
                 <?php elseif ($rol === 'C'): ?>
-                    <!-- Navegación para Cliente -->
+
                     <li><a href="../customer.php" class="nav-link px-2 text-white">Venta Laptops</a></li>
                 <?php else: ?>
-                    <!-- Navegación para usuarios no logueados -->
+
                     <li><a href="../index.php" class="nav-link px-2 text-white">Venta Laptops</a></li>
                 <?php endif; ?>
             </ul>
@@ -34,7 +33,7 @@ $usuario = $_SESSION['login_user'] ?? null;
 
             <div class="text-end d-flex align-items-center gap-2">
                 <?php if ($rol === 'C'): ?>
-                    <!-- Carrito para clientes -->
+                    
                     <a href="../buycar.php" class="btn btn-warning position-relative">
                         🛒
                         <?php if ($cantidad > 0): ?>
@@ -46,13 +45,13 @@ $usuario = $_SESSION['login_user'] ?? null;
                 <?php endif; ?>
                 
                 <?php if ($usuario): ?>
-                    <!-- Usuario logueado -->
+
                     <span class="text-white" style="border: 1px solid #fff; padding: 6px 12px; border-radius: 4px; margin-right: 10px;">
                         <?= $rol === 'A' ? 'Admin' : 'Cliente' ?>: <?= htmlspecialchars($usuario) ?>
                     </span>
                     <a href="../logout.php" class="btn btn-danger">Logout</a>
                 <?php else: ?>
-                    <!-- Usuario no logueado -->
+
                     <a href="../login.php" class="btn btn-primary">Iniciar Sesión</a>
                     <a href="../signin.php" class="btn btn-primary">Registrarse</a>
                 <?php endif; ?>

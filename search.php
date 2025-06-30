@@ -1,10 +1,8 @@
 <?php
 session_start();
 
-// Incluir la conexión a base de datos
 require_once 'db.php';
 
-// Procesar la búsqueda si se envió
 $busqueda = $_GET['q'] ?? '';
 $articulos = [];
 
@@ -12,7 +10,6 @@ if (!empty($busqueda)) {
     try {
         $cn = DB::conectar();
         
-        // Usar la función similarity de PostgreSQL para búsqueda por similitud
         $sql = "
             SELECT *
             FROM articulos
@@ -43,7 +40,6 @@ if (!empty($busqueda)) {
     }
 }
 
-// Determinar el rol del usuario
 $rol = $_SESSION['rol'] ?? null;
 $usuario = $_SESSION['login_user'] ?? null;
 
@@ -52,14 +48,12 @@ if ($rol === 'C' && !isset($_SESSION['carrito'])) {
     $_SESSION['carrito'] = [];
 }
 
-// Agregar al carrito (solo para clientes)
 if ($rol === 'C' && isset($_POST['agregar_carrito'])) {
     $id = $_POST['idarticulo'];
     $nombre = $_POST['nombre'];
     $precio = $_POST['precio'];
     $cantidad = $_POST['cantidad'];
     
-    // Si ya existe, sumar cantidad
     if (isset($_SESSION['carrito'][$id])) {
         $_SESSION['carrito'][$id]['cantidad'] += $cantidad;
     } else {
@@ -159,7 +153,6 @@ if ($rol === 'C' && isset($_POST['agregar_carrito'])) {
     <?php endif; ?>
 </div>
 
-<!-- Modal de alerta para login -->
 <div id="modalLogin" class="modal-bg" style="display: none;">
     <div class="modal-box">
         <button class="close" onclick="cerrarModal()">&times;</button>
@@ -183,7 +176,6 @@ function cerrarModal() {
     document.getElementById('modalLogin').style.display = 'none';
 }
 
-// Cerrar modal al hacer clic fuera de él
 document.getElementById('modalLogin').addEventListener('click', function(e) {
     if (e.target === this) {
         cerrarModal();

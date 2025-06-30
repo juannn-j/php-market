@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Protección: solo cliente
 if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'C') {
     header('Location: index.php');
     exit;
@@ -9,12 +8,11 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'C') {
 
 require_once 'db.php';
 
-// Inicializar carrito si no existe
 if (!isset($_SESSION['carrito'])) {
     $_SESSION['carrito'] = [];
 }
 
-// Eliminar del carrito
+
 if (isset($_POST['eliminar_carrito'])) {
     $id = $_POST['idarticulo'];
     unset($_SESSION['carrito'][$id]);
@@ -58,7 +56,6 @@ if (isset($_POST['confirmar_pedido']) && !empty($_SESSION['carrito'])) {
                     ]);
                 }
                 
-                // Guardar boleta en sesión
                 $_SESSION['boleta'] = [
                     'pedido_id' => $pedido_id,
                     'cliente' => $_SESSION['login_user'] ?? 'Desconocido',
@@ -80,7 +77,6 @@ if (isset($_POST['confirmar_pedido']) && !empty($_SESSION['carrito'])) {
     }
 }
 
-// Calcular total del carrito
 $total_carrito = 0;
 $cantidad_total = 0;
 foreach ($_SESSION['carrito'] as $item) {

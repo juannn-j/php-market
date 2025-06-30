@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Protección: solo cliente
 if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'C') {
     header('Location: index.php');
     exit;
@@ -9,12 +8,10 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'C') {
 
 require_once 'db.php';
 
-// Inicializar carrito si no existe
 if (!isset($_SESSION['carrito'])) {
     $_SESSION['carrito'] = [];
 }
 
-// Agregar al carrito
 if (isset($_POST['agregar_carrito'])) {
     $id = $_POST['idarticulo'];
     $nombre = $_POST['nombre'];
@@ -34,13 +31,11 @@ if (isset($_POST['agregar_carrito'])) {
     }
 }
 
-// Eliminar del carrito
 if (isset($_POST['eliminar_carrito'])) {
     $id = $_POST['idarticulo'];
     unset($_SESSION['carrito'][$id]);
 }
 
-// Confirmar pedido
 $mensaje = '';
 if (isset($_POST['confirmar_pedido']) && !empty($_SESSION['carrito'])) {
     $usuario_id = $_SESSION['login_user_id'] ?? null;

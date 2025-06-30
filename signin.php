@@ -21,7 +21,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($psCheck->fetch()) {
             $mensaje = "❌ El email ya está registrado.";
         } else {
-            // Insertar nuevo usuario como cliente (tipo 'C')
             $sql = "INSERT INTO usuarios (nombre, email, password, tipo) VALUES (:nombre, :email, :password, 'C')";
             $ps = $cn->prepare($sql);
             $ps->bindParam(':nombre', $nombre);
